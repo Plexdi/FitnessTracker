@@ -1,4 +1,18 @@
 FROM openjdk:17-jdk-slim
+
 WORKDIR /app
-COPY target/fitness-tracker-backend-0.0.1-SNAPSHOT.war app.war
+
+# Copy Maven wrapper files (optional if using mvnw)
+COPY mvnw .
+COPY .mvn .mvn
+
+# Copy the entire project into the container
+COPY . .
+
+# Build the project and create the WAR file
+RUN ./mvnw clean package -DskipTests
+
+# Copy the built WAR file to the container
+COPY target/*.war app.war
+
 CMD ["java", "-jar", "app.war"]
