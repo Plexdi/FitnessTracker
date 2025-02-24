@@ -2,9 +2,12 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy Maven wrapper files (optional if using mvnw)
+# Copy Maven wrapper files
 COPY mvnw .
 COPY .mvn .mvn
+
+# Set execute permissions for Maven wrapper
+RUN chmod +x mvnw
 
 # Copy the entire project into the container
 COPY . .
