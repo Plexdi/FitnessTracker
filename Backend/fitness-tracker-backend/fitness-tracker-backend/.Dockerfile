@@ -2,17 +2,20 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy Maven wrapper files first
+# Copy Maven Wrapper files
 COPY mvnw .
 COPY .mvn .mvn
 
-# Ensure execute permissions for mvnw
+# Fix line endings (optional but recommended)
+RUN apt-get update && apt-get install -y dos2unix && dos2unix mvnw
+
+# Set execute permissions
 RUN chmod +x mvnw && ls -l mvnw
 
-# Copy the entire project into the container
+# Copy the rest of the project
 COPY . .
 
-# Build the project and create the JAR file
+# Build the project
 RUN ./mvnw clean package -DskipTests
 
 # Copy the built JAR file to the container
