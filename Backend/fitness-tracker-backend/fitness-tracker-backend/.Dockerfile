@@ -12,13 +12,10 @@ RUN chmod +x mvnw
 # Copy the entire project into the container
 COPY . .
 
-# Reapply chmod in case of permission loss
-RUN chmod +x mvnw
-
-# Build the project and create the WAR file
+# Build the project and create the JAR file
 RUN ./mvnw clean package -DskipTests
 
-# Copy the built WAR file to the container
-COPY target/*.war app.war
+# Copy the built JAR file to the container
+COPY target/*.jar app.jar
 
-CMD ["java", "-jar", "app.war"]
+CMD ["java", "-jar", "app.jar"]
