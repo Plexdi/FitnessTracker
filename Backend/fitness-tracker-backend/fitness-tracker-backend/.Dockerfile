@@ -1,24 +1,19 @@
+# Start from OpenJDK 17
 FROM openjdk:17-jdk-slim
 
+# Set working directory
 WORKDIR /app
 
-# Copy Maven Wrapper files
+# Copy Maven Wrapper and ensure it is executable
 COPY mvnw .
 COPY .mvn .mvn
+RUN chmod +x mvnw
 
-# Fix line endings (optional but recommended)
-RUN apt-get update && apt-get install -y dos2unix && dos2unix mvnw
-
-# Set execute permissions
-RUN chmod +x mvnw && ls -l mvnw
-
-# Copy the rest of the project
+# Copy the rest of the application
 COPY . .
 
-# Build the project
+# Build the application (skipping tests for faster builds)
 RUN ./mvnw clean package -DskipTests
 
 # Copy the built JAR file to the container
-COPY target/*.jar app.jar
-
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "target/fitness-tracker-backend-0.0.1-SNAPSHOT.jar"]
