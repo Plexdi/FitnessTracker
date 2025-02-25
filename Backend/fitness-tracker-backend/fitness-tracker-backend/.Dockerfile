@@ -7,13 +7,13 @@ WORKDIR /app
 # Copy Maven Wrapper and ensure it is executable
 COPY mvnw .
 COPY .mvn .mvn
-RUN chmod +x mvnw
+RUN chmod +x mvnw && ls -l mvnw  # Verify execution permissions
 
 # Copy the rest of the application
 COPY . .
 
-# Build the application (skipping tests for faster builds)
+# Run Maven build (skipping tests)
 RUN ./mvnw clean package -DskipTests
 
-# Copy the built JAR file to the container
+# Set the entrypoint command to run the application
 CMD ["java", "-jar", "target/fitness-tracker-backend-0.0.1-SNAPSHOT.jar"]
