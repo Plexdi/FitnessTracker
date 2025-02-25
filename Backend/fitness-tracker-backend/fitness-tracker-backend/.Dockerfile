@@ -7,7 +7,7 @@ COPY mvnw .
 COPY .mvn .mvn
 
 # Ensure execute permissions for mvnw
-RUN chmod +x mvnw
+RUN chmod +x mvnw && ls -l mvnw
 
 # Copy the entire project into the container
 COPY . .
