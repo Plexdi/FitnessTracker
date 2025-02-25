@@ -1,19 +1,14 @@
-# Start from OpenJDK 17
-FROM openjdk:17-jdk-slim
-
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy Maven Wrapper and ensure it is executable
+# Copy the Maven Wrapper and project files
+COPY .mvn/ .mvn
 COPY mvnw .
-COPY .mvn .mvn
-RUN chmod +x mvnw && ls -l mvnw  # Verify execution permissions
+COPY pom.xml .
+COPY src src
 
-# Copy the rest of the application
-COPY . .
+# Make the mvnw script executable
+RUN chmod +x mvnw
 
 # Run Maven build (skipping tests)
 RUN ./mvnw clean package -DskipTests
-
-# Set the entrypoint command to run the application
-CMD ["java", "-jar", "target/fitness-tracker-backend-0.0.1-SNAPSHOT.jar"]
