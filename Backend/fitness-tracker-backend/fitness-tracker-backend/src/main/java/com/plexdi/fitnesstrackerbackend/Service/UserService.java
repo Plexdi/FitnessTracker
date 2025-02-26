@@ -20,6 +20,10 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public boolean verifyPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
     public UserEntity login(String username, String email, String password){
         Optional<UserEntity> userOpt = userRepository.findByUsername(username);
         if (userOpt.isPresent()){
