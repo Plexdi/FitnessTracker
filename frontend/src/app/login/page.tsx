@@ -13,7 +13,8 @@ const Login = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -29,11 +30,15 @@ const Login = () => {
       if (!res.ok) throw new Error(data.message || "Login failed");
 
       router.push("/dashboard"); // Redirect to dashboard after login
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+    if (err instanceof Error) {
+        setError(err.message);
+    } else {
+        setError("An unknown error occurred");
+        setLoading(false);
     }
+}
+
   };
 
   return (

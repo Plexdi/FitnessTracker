@@ -20,7 +20,7 @@ const Signup = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -37,10 +37,13 @@ const Signup = () => {
 
       alert("Signup successful! Redirecting to login...");
       router.push("/login"); // Redirect to login page after successful signup
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            setError(err.message);
+        } else {
+            setError("An unknown error occurred");
+            setLoading(false);
+        }
     }
   };
 
