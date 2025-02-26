@@ -26,7 +26,7 @@ const Signup = () => {
     setLoading(true);
   
     try {
-      const res = await fetch("https://fitnesstracker-jzqd.onrender.com/users/login", {
+      const res = await fetch("https://fitnesstracker-jzqd.onrender.com/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
