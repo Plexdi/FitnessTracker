@@ -20,8 +20,7 @@ import com.plexdi.fitnesstrackerbackend.Service.UserService;
 import com.plexdi.fitnesstrackerbackend.model.UserEntity;
 
 import io.micrometer.core.ipc.http.HttpSender.Response;
-
-@CrossOrigin(origins = "fitness-tracker-flax.vercel.app", allowedHeaders = "*")
+@CrossOrigin(origins = "https://fitness-tracker-flax.vercel.app")
 @RestController
 @RequestMapping("/users")
 public class UserController { 
