@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 const Login = () => {
   const router = useRouter();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -14,13 +14,12 @@ const Login = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("http://localhost:8080/users/login", {  // Backend API URL
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -29,16 +28,17 @@ const Login = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
 
-      router.push("/dashboard"); // Redirect to dashboard after login
+      alert("Login successful! Redirecting to dashboard...");
+      router.push("/dashboard"); // Redirect to dashboard on success
     } catch (err: unknown) {
-    if (err instanceof Error) {
+      if (err instanceof Error) {
         setError(err.message);
-    } else {
+      } else {
         setError("An unknown error occurred");
-        setLoading(false);
+      }
+    } finally {
+      setLoading(false);
     }
-}
-
   };
 
   return (
@@ -49,6 +49,15 @@ const Login = () => {
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={form.username}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
           <input
             type="email"
             name="email"
