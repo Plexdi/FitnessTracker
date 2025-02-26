@@ -1,7 +1,14 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  async rewrites() {
+    return [
+      {
+        source: "/dashboard",
+        destination: "/dashboard/page.tsx",
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
