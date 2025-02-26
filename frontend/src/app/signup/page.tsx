@@ -37,10 +37,13 @@ const Signup = () => {
 
       alert("Signup successful! Redirecting to dashboard...");
       router.push("/dashboard"); // ✅ Redirect after successful signup
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            setError(err.message);
+        } else {
+            setError("An unknown error occurred");
+            setLoading(false);
+        }
     }
   };
 
