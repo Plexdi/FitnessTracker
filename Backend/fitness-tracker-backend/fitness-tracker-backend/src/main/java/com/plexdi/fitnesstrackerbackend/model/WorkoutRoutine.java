@@ -9,7 +9,7 @@ import java.util.List;
 public class WorkoutRoutine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // Generates a UUID
+    @GeneratedValue(strategy = GenerationType.UUID) 
     private String id;
 
     @Column(nullable = false)
