@@ -16,7 +16,7 @@ import com.plexdi.fitnesstrackerbackend.model.UserEntity;
 
 import io.micrometer.core.ipc.http.HttpSender.Response;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "fitness-tracker-flax.vercel.app", allowedHeaders = "*")
 @RestController
 @RequestMapping("/users")
 public class UserController { // Fixed class name typo
