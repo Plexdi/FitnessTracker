@@ -15,13 +15,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log("Token found in localStorage:", token);
     if (!token) {
       router.push("/login");
       return;
     }
-
     fetchUserData(token);
   }, []);
+  
 
   const fetchUserData = async (token: string) => {
     try {

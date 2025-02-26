@@ -20,32 +20,35 @@ const Signup = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
+  
     try {
-      const res = await fetch("https://fitnesstracker-jzqd.onrender.com/users/register", {
+      const res = await fetch("https://fitnesstracker-jzqd.onrender.com/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-
+  
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Signup failed");
-
-      alert("Signup successful! Redirecting to dashboard...");
-      router.push("/dashboard"); // ✅ Redirect after successful signup
+      if (!res.ok) throw new Error(data.message || "Login failed");
+  
+      localStorage.setItem("token", data.token); // ✅ Store the auth token
+      alert("Login successful! Redirecting to dashboard...");
+      router.push("/dashboard");
     } catch (err: unknown) {
-        if (err instanceof Error) {
-            setError(err.message);
-        } else {
-            setError("An unknown error occurred");
-            setLoading(false);
-        }
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("An unknown error occurred");
+      }
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

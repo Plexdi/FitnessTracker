@@ -17,19 +17,20 @@ const Login = () => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-
+  
     try {
-      const res = await fetch("https://fitnesstracker-jzqd.onrender.com/users/login", {  
+      const res = await fetch("https://fitnesstracker-jzqd.onrender.com/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-
+  
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
-
+  
+      localStorage.setItem("token", data.token); // ✅ Store the auth token
       alert("Login successful! Redirecting to dashboard...");
-      router.push("/dashboard"); // Redirect to dashboard on success
+      router.push("/dashboard");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -40,6 +41,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
