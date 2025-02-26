@@ -1,5 +1,7 @@
 package com.plexdi.fitnesstrackerbackend.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,9 +35,12 @@ public class UserController { // Fixed class name typo
                 user.getEmail(),
                 user.getDob()
             );
-            return ResponseEntity.ok("User registered successfully: " + savedUser.getUsername());
+    
+            // Return JSON instead of plain text
+            return ResponseEntity.ok().body(Map.of("message", "User registered successfully"));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
         }
     }
+    
 }
